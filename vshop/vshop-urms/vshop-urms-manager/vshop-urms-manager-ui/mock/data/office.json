@@ -1,0 +1,9 @@
+{
+    "rows":
+    [   
+        { "id":"1", "name":"科大讯飞", "mobile":"0551-1234567","email":"egojit@qq.com","parentId":"0","createDate":"2019-03-16  12:10:11","remark":"测试" },
+        { "id":"11", "name":"云计算研究院", "mobile":"0551-1234567-1","email":"egojit@qq.com","parentId":"1","createDate":"2019-03-16  12:10:11","remark":"测试" },
+        { "id":"12", "name":"技术中心", "mobile":"0551-1234567-2","email":"egojit@qq.com","parentId":"1","createDate":"2019-03-16  12:10:11","remark":"测试" }
+    ],
+    "total":3
+}

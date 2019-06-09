@@ -16,6 +16,7 @@
     <modules>
         <module>vshop-cloud-eureka</module>
         <module>vshop-cloud-gateway</module>
+        <module>vshop-cloud-config</module>
     </modules>
 
     <properties>

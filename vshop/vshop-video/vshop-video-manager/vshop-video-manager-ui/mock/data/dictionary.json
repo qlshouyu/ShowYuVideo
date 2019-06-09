@@ -1,0 +1,5 @@
+[   
+    { "id":"sex", "code":"sex", "value":"性别","parentId":"0","remark":"测试" },
+    { "id":"sex_man", "code":"sex_man", "value":"男" ,"parentId":"sex","remark":"测试" },
+    { "id":"sex_woman", "code":"sex_woman", "value":"女" ,"parentId":"sex","remark":"测试" }
+]

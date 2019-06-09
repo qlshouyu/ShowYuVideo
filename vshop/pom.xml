@@ -2,14 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.qlshouyu.vshop</groupId>
     <artifactId>vshop</artifactId>
     <packaging>pom</packaging>
@@ -18,44 +17,18 @@
         <module>vshop-urms</module>
         <module>vshop-cloud</module>
         <module>vshop-common</module>
+        <module>vshop-video</module>
     </modules>
     <properties>
-        <java.version>1.8</java.version>
-        <project.version>1.0-SNAPSHOT</project.version>
         <jar.plugin.version>3.1.2</jar.plugin.version>
-        <tk.mapper.starter.version>2.1.5</tk.mapper.starter.version>
-        <durid.starter.version>1.1.16</durid.starter.version>
-        <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <junit.version>4.12</junit.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
-        <fastjson.version>1.2.58</fastjson.version>
+        <persistence-api.version>1.0</persistence-api.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.qlshouyu.vshop</groupId>
-                <artifactId>vshop-urms-repository</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.qlshouyu.vshop</groupId>
-                <artifactId>vshop-urms-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.qlshouyu.vshop</groupId>
-                <artifactId>vshop-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.qlshouyu.vshop</groupId>
-                <artifactId>vshop-urms-model</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -64,72 +37,15 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>${tk.mapper.starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${durid.starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql-connector-java.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox-swagger-ui.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${springfox-swagger-ui.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-spring-web</artifactId>
-                <version>${springfox-swagger-ui.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>1.2.10</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate.validator</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${persistence-api.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${jar.plugin.version}</version>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

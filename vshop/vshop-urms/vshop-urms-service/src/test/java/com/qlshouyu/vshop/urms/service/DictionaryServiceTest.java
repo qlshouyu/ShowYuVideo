@@ -1,6 +1,5 @@
 package com.qlshouyu.vshop.urms.service;
-
-import com.qlshouyu.vshop.common.ResponseResult;
+import com.qlshouyu.vshop.common.tools.ResponseResult;
 import com.qlshouyu.vshop.urms.model.po.Dictionary;
 import org.junit.Assert;
 import org.junit.runner.RunWith;

@@ -1,0 +1,5 @@
+[
+    {"id":"1","icon": "icon-system-setting","url": "plantform","title": "控制台","parentId":"0"},
+    {"id":"11", "icon": "icon-user2","url": "/upms/office","title": "机构管理","parentId":"1"},
+    {"id":"12", "icon": "icon-dic","url": "/upms/dic","title": "字典管理","parentId":"1"}
+]

@@ -10,10 +10,12 @@
     <artifactId>vshop-urms-api</artifactId>
     <name>vshop-urms-api</name>
     <description>Demo project for Spring Boot</description>
+
+
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.qlshouyu.vshop</groupId>
+            <artifactId>vshop-common-web</artifactId>
         </dependency>
         <dependency>
             <groupId>com.qlshouyu.vshop</groupId>
@@ -23,7 +25,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>

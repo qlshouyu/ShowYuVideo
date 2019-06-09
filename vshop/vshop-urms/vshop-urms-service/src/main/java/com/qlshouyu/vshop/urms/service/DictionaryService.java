@@ -1,6 +1,6 @@
 package com.qlshouyu.vshop.urms.service;
-import com.qlshouyu.vshop.common.ResponseResult;
 import com.qlshouyu.vshop.common.database.BaseService;
+import com.qlshouyu.vshop.common.tools.ResponseResult;
 import com.qlshouyu.vshop.urms.model.po.Dictionary;
 import com.qlshouyu.vshop.urms.model.vo.DictionarySearchVo;
 import com.qlshouyu.vshop.urms.model.vo.DictionaryVo;

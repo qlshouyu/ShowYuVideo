@@ -2,7 +2,7 @@ package com.qlshouyu.vshop.urms.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.qlshouyu.vshop.common.database.VoEntity;
+import com.qlshouyu.vshop.common.tools.VoEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

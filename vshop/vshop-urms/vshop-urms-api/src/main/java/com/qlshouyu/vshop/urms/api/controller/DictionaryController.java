@@ -1,7 +1,7 @@
 package com.qlshouyu.vshop.urms.api.controller;
 
-import com.qlshouyu.vshop.common.BaseController;
-import com.qlshouyu.vshop.common.ResponseResult;
+import com.qlshouyu.vshop.common.tools.ResponseResult;
+import com.qlshouyu.vshop.common.web.BaseController;
 import com.qlshouyu.vshop.urms.model.po.Dictionary;
 import com.qlshouyu.vshop.urms.model.vo.DictionarySearchVo;
 import com.qlshouyu.vshop.urms.model.vo.DictionaryVo;

@@ -1,7 +1,6 @@
 package com.qlshouyu.vshop.urms.model.po;
 
-
-import com.qlshouyu.vshop.common.database.PoEntity;
+import com.qlshouyu.vshop.common.tools.PoEntity;
 
 import javax.persistence.Table;
 

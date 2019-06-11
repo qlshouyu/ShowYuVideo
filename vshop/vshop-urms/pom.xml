@@ -16,6 +16,7 @@
         <module>vshop-urms-model</module>
         <module>vshop-urms-service</module>
         <module>vshop-urms-repository</module>
+        <module>vshop-urms-sso</module>
     </modules>
     <properties>
         <vshop-common>1.0-SNAPSHOT</vshop-common>
@@ -36,6 +37,12 @@
                 <groupId>com.qlshouyu.vshop</groupId>
                 <artifactId>vshop-common-tools</artifactId>
                 <version>${vshop-common}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.qlshouyu.vshop</groupId>
+                <artifactId>vshop-urms-sso</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.qlshouyu.vshop</groupId>

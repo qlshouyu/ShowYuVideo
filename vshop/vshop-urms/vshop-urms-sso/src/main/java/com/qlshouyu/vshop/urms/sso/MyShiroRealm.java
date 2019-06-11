@@ -1,4 +1,4 @@
-package com.qlshouyu.vshop.video.manager.web.sso;
+package com.qlshouyu.vshop.urms.sso;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;

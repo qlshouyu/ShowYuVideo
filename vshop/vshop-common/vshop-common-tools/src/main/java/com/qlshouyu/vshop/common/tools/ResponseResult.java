@@ -24,6 +24,9 @@ public class ResponseResult<T> {
         this.errorMsg=error;
         this.code=status.getValue();
     }
+    public ResponseResult(RESPONSE_STATUS status) {
+        this((T) status.getName(),status,status.getName());
+    }
 
     public ResponseResult(T data) {
         this(data,RESPONSE_STATUS.SUCCESS,"");

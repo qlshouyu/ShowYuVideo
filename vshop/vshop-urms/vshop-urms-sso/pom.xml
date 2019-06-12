@@ -12,6 +12,7 @@
     <artifactId>vshop-urms-sso</artifactId>
     <properties>
         <shiro-spring.version>1.4.1</shiro-spring.version>
+        <java-jwt.version>3.8.1</java-jwt.version>
     </properties>
     <dependencies>
         <dependency>
@@ -22,6 +23,11 @@
         <dependency>
             <groupId>com.qlshouyu.vshop</groupId>
             <artifactId>vshop-common-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
         </dependency>
     </dependencies>
 

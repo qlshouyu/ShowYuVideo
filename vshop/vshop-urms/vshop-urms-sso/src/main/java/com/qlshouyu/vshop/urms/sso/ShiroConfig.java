@@ -1,12 +1,16 @@
 package com.qlshouyu.vshop.urms.sso;
 
-import com.qlshouyu.vshop.urms.sso.filters.CORSAuthenticationFilter;
+import com.qlshouyu.vshop.urms.sso.filters.JWTFilter;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.spring.config.ShiroConfiguration;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.spring.web.config.ShiroWebConfiguration;
-import org.apache.shiro.spring.web.config.ShiroWebFilterConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.*;
 
 import javax.servlet.Filter;
@@ -20,21 +24,17 @@ import java.util.Map;
  * @since 2019-06-09 16:35
  */
 @Configuration
-@AutoConfigureBefore(value = {ShiroWebConfiguration.class})
-@ComponentScan(basePackages = {"org.apache.shiro.spring"},
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-                classes = {ShiroConfiguration.class, ShiroWebFilterConfiguration.class
-}))
-public class ShiroConfig {
+//@AutoConfigureBefore(value = {ShiroWebConfiguration.class})
+//@ComponentScan(basePackages = {"org.apache.shiro.spring"},
+//        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
+//                classes = {ShiroConfiguration.class, ShiroWebFilterConfiguration.class
+//}))
+public class ShiroConfig  {
 
-    @Bean
-    public AuthorizingRealm authorizingRealm(){
-        MyShiroRealm realm=new MyShiroRealm();
-        return realm;
-    }
+
 
     @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean getShiroFilterFactoryBean(org.apache.shiro.mgt.SecurityManager securityManager,CORSAuthenticationFilter corsAuthenticationFilter) {
+    public ShiroFilterFactoryBean getShiroFilterFactoryBean(org.apache.shiro.mgt.SecurityManager securityManager,BasicHttpAuthenticationFilter filter) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
         //SecurityUtils.setSecurityManager(securityManager);
@@ -47,18 +47,75 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/login/**", "anon");
         filterChainDefinitionMap.put("/corp/call_back/receive", "anon");
         //authc:所有url必须通过认证才能访问，anon:所有url都可以匿名访问
-        filterChainDefinitionMap.put("/**", "corsAuthenticationFilter");
+        filterChainDefinitionMap.put("/**", "jwtFilter");
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
         //自定义过滤器
         Map<String, Filter> filterMap = new LinkedHashMap<>();
-        filterMap.put("corsAuthenticationFilter", corsAuthenticationFilter);
+        filterMap.put("jwtFilter", filter);
         shiroFilter.setFilters(filterMap);
 
         return shiroFilter;
     }
 
+
     @Bean
-    public CORSAuthenticationFilter corsAuthenticationFilter(){
-        return new CORSAuthenticationFilter();
+    public org.apache.shiro.mgt.SecurityManager securityManager(AuthorizingRealm realm,CacheManager cacheManager,SessionManager sessionManager){
+        DefaultWebSecurityManager sm = new DefaultWebSecurityManager();
+        sm.setRealm(realm);
+        sm.setCacheManager(cacheManager);
+        //注入记住我管理器
+//        sm.setRememberMeManager(rememberMeManager());
+        //注入自定义sessionManager
+        sm.setSessionManager(sessionManager);
+        return sm;
     }
+
+
+    //自定义sessionManager
+    @Bean
+    public SessionManager sessionManager() {
+        return new CustomSessionManager();
+    }
+
+
+    @Bean
+    public AuthorizingRealm authorizingRealm(){
+        MyShiroRealm realm=new MyShiroRealm();
+        return realm;
+    }
+    @Bean
+    public CacheManager cacheManager() {
+        return new MemoryConstrainedCacheManager();
+    }
+    @Bean
+    public BasicHttpAuthenticationFilter corsAuthenticationFilter(){
+        return new JWTFilter();
+    }
+
+    /**
+     * Shiro生命周期处理器 * @return
+     */
+    @Bean
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+
+    /**
+     * 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证 * 配置以下两个bean(DefaultAdvisorAutoProxyCreator(可选)和AuthorizationAttributeSourceAdvisor)即可实现此功能 * @return
+     */
+    @Bean
+    @DependsOn({"lifecycleBeanPostProcessor"})
+    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        advisorAutoProxyCreator.setProxyTargetClass(true);
+        return advisorAutoProxyCreator;
+    }
+
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(org.apache.shiro.mgt.SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+
 }

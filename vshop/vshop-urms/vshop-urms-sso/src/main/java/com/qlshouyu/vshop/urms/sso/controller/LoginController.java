@@ -6,6 +6,7 @@ import com.qlshouyu.vshop.urms.sso.jwt.JWTUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.Assert;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,15 +20,12 @@ import sun.security.pkcs11.wrapper.Constants;
 @RestController
 @Api(value = "登录管理",tags = "登录管理")
 public class LoginController extends BaseController {
+
     @PostMapping("/login")
     @ApiOperation("登录")
     public ResponseResult login(@RequestParam String username, @RequestParam String password) {
-        return new SimpleActionHandler(request) {
-            @Override
-            public void doAction(ResponseData responseData) throws Exception {
-                responseData.setData(loginService.jwtLogin(username, password));
-            }
-        }.handle();
+//        JWTUtil.sign()
+        return null;
     }
 
     /**

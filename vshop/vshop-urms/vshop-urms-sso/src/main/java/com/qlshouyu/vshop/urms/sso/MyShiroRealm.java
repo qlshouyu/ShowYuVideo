@@ -1,5 +1,6 @@
 package com.qlshouyu.vshop.urms.sso;
 
+import com.qlshouyu.vshop.urms.service.AccountService;
 import com.qlshouyu.vshop.urms.sso.jwt.JWTToken;
 import com.qlshouyu.vshop.urms.sso.jwt.JWTUtil;
 import org.apache.shiro.authc.*;
@@ -9,6 +10,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import sun.misc.Cache;
 
 /**
  * TODO
@@ -19,8 +22,11 @@ import org.slf4j.LoggerFactory;
 public class MyShiroRealm  extends AuthorizingRealm{
     private static final Logger LOGGER = LoggerFactory.getLogger(MyShiroRealm.class);
 
-//    @Autowired
-//    private ShiroAuthService shiroAuthService;
+    @Autowired
+    private Cache cache;
+
+    @Autowired
+    private AccountService accountService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -28,7 +34,6 @@ public class MyShiroRealm  extends AuthorizingRealm{
 
         String username = JWTUtil.getUsername(principals.toString());
 //        MemberDTO member = shiroAuthService.getPrincipal(username);
-
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 //
 //        List<String> userPermissions = shiroAuthService.getPermissions(member.getId());

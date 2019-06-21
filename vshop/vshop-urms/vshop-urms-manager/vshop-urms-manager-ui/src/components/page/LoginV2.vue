@@ -40,27 +40,25 @@ export default {
   methods: {
     submitForm () {
       var that = this
-      console.warn('登录中')
-      // that.$util.cache.putUser(data.body) // 缓存用户
-      that.$util.cookie.setCookie(that.$config.tokenKey, 'token', that.$config.cookieTimeOut) // 缓存token
-      that.$router.push('/')
-      // this.$refs['ruleForm'].validate((valid) => {
-      //   if (valid) {
-      //     that.$post({
-      //       url: that.$config.login_url,
-      //       data: that.loginUser,
-      //       success: function (data) {
-      //         that.$util.log(data)
-      //         that.$util.cache.putUser(data.body) // 缓存用户
-      //         that.$util.cookie.setCookie(that.$config.tokenKey, data.token, that.$config.cookieTimeOut) // 缓存token
-      //         that.$router.push('/')
-      //       }
-      //     })
-      //   } else {
-      //     console.log('验证不通过')
-      //     return false
-      //   }
-      // })
+      console.info('登录中')
+      // that.$router.push('/')
+      this.$refs['ruleForm'].validate((valid) => {
+        if (valid) {
+          that.$post({
+            url: that.$config.login_url,
+            data: that.loginUser,
+            success: function (data) {
+              that.$util.log(data)
+              that.$util.cache.putUser(data.body) // 缓存用户
+              that.$util.cookie.setCookie(that.$config.tokenKey, data.token, that.$config.cookieTimeOut) // 缓存token
+              that.$router.push('/')
+            }
+          })
+        } else {
+          console.log('验证不通过')
+          return false
+        }
+      })
     }
   }
 }

@@ -1,4 +1,4 @@
-package com.qlshouyu.vshop.common.tools.urils;
+package com.qlshouyu.vshop.common.tools.utils;
 
 /**
  * TODO

@@ -1,3 +1,5 @@
 com/qlshouyu/vshop/urms/model/vo/DictionaryVo.class
-com/qlshouyu/vshop/urms/model/vo/DictionarySearchVo.class
+com/qlshouyu/vshop/urms/model/po/Account.class
 com/qlshouyu/vshop/urms/model/po/Dictionary.class
+com/qlshouyu/vshop/urms/model/vo/LoginUserVo.class
+com/qlshouyu/vshop/urms/model/vo/DictionarySearchVo.class

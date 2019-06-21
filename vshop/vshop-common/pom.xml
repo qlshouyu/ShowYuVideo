@@ -91,6 +91,11 @@
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper-spring-boot-starter.version}</version>
             </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

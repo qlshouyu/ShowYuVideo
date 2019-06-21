@@ -1,6 +1,7 @@
 package com.qlshouyu.vshop.urms.sso;
 
 import com.qlshouyu.vshop.urms.sso.filters.JWTFilter;
+import com.qlshouyu.vshop.urms.sso.service.LoginServie;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
@@ -44,26 +45,28 @@ public class ShiroConfig  {
         //SecurityUtils.setSecurityManager(securityManager);
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //配置不会被拦截的链接，顺序判断
-        filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/static/js/**", "anon");
         filterChainDefinitionMap.put("/static/css/**", "anon");
         filterChainDefinitionMap.put("/static/fonts/**", "anon");
-        filterChainDefinitionMap.put("/login/**", "anon");
+        filterChainDefinitionMap.put("/web/api/v1/sso/**", "anon");
+        filterChainDefinitionMap.put("/web/api/v1/sso/login", "anon");
         filterChainDefinitionMap.put("/corp/call_back/receive", "anon");
         //authc:所有url必须通过认证才能访问，anon:所有url都可以匿名访问
-        filterChainDefinitionMap.put("/**", "jwtFilter");
-        shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
+
         //自定义过滤器
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("jwtFilter", filter);
         shiroFilter.setFilters(filterMap);
+        filterChainDefinitionMap.put("/**", "jwtFilter");
 
+        shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilter;
     }
 
 
     @Bean
-    public org.apache.shiro.mgt.SecurityManager securityManager(AuthorizingRealm realm,CacheManager cacheManager,SessionManager sessionManager){
+    public org.apache.shiro.mgt.SecurityManager securityManager(AuthorizingRealm realm,CacheManager cacheManager){
         DefaultWebSecurityManager sm = new DefaultWebSecurityManager();
         sm.setRealm(realm);
         sm.setCacheManager(cacheManager);
@@ -78,8 +81,8 @@ public class ShiroConfig  {
 
 
     @Bean
-    public AuthorizingRealm authorizingRealm(){
-        MyShiroRealm realm=new MyShiroRealm();
+    public AuthorizingRealm authorizingRealm(LoginServie loginServie){
+        MyShiroRealm realm=new MyShiroRealm(loginServie);
         return realm;
     }
     @Bean
@@ -88,7 +91,7 @@ public class ShiroConfig  {
         return new MemoryConstrainedCacheManager();
     }
     @Bean(name = "urms")
-    public Cache cacheManager(CacheManager cacheManager) {
+    public Cache cache(CacheManager cacheManager) {
         return cacheManager.getCache("urms");
     }
     @Bean

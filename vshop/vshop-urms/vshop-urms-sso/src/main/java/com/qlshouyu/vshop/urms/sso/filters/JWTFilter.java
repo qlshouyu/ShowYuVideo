@@ -31,9 +31,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
-
         String authorization = req.getHeader(LOGIN_SIGN);
-
         return authorization != null;
 
     }
@@ -55,8 +53,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         if (isLoginAttempt(request, response)) {
             executeLogin(request, response);
         }
-
-        return true;
+        return false;
     }
 
     /**

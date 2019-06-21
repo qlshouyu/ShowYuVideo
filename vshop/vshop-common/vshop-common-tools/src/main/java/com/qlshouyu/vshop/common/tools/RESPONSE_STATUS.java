@@ -12,6 +12,7 @@ public enum RESPONSE_STATUS {
     ERROR(500,"服务器错误"),
     NOT_FOUND(404,"资源不存在"),
     NO_AUTH(401,"未登录或者无权限"),
+    NO_AUTH_ERROR_PWD_NAME(402,"用户名或者密码错误"),
     ERROR_PARM(501,"参数错误");
 
     private int value;

@@ -1,17 +1,19 @@
 package com.qlshouyu.vshop.urms.sso;
 
-import com.qlshouyu.vshop.urms.service.AccountService;
+import com.qlshouyu.vshop.urms.model.vo.LoginUserVo;
 import com.qlshouyu.vshop.urms.sso.jwt.JWTToken;
 import com.qlshouyu.vshop.urms.sso.jwt.JWTUtil;
+import com.qlshouyu.vshop.urms.sso.service.LoginServie;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.misc.Cache;
+import org.springframework.stereotype.Component;
 
 /**
  * TODO
@@ -22,18 +24,18 @@ import sun.misc.Cache;
 public class MyShiroRealm  extends AuthorizingRealm{
     private static final Logger LOGGER = LoggerFactory.getLogger(MyShiroRealm.class);
 
-    @Autowired
-    private Cache cache;
+    private LoginServie loginServie;
 
-    @Autowired
-    private AccountService accountService;
+    public MyShiroRealm(LoginServie loginServie){
+        this.loginServie=loginServie;
+    }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         LOGGER.info("doGetAuthorizationInfo+" + principals.toString());
 
         String username = JWTUtil.getUsername(principals.toString());
-//        MemberDTO member = shiroAuthService.getPrincipal(username);
+        LoginUserVo userVo= loginServie.getUser(username);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 //
 //        List<String> userPermissions = shiroAuthService.getPermissions(member.getId());
@@ -60,21 +62,14 @@ public class MyShiroRealm  extends AuthorizingRealm{
         String token = (String) authcToken.getCredentials();
 
         String username = JWTUtil.getUsername(token);
-
-//        MemberDTO member = shiroAuthService.getPrincipal(username);
+        LoginUserVo userVo= loginServie.getUser(username);
 
         // 用户不会空
-        if (username != null) {
-            // 判断是否禁用
-//            if (member.getStatus().equals(MemberStatus.disableStatus)) {
-//                throw new DisabledAccountException("901");
-//            }
-
+        if (userVo != null) {
             // 密码验证
-//            if (!JWTUtil.verify(token, username, member.getLoginPassword())) {
-//                throw new UnknownAccountException("用户名或者密码错误");
-//            }
-
+            if (!JWTUtil.verify(token, username, userVo.getPassword())) {
+                throw new UnknownAccountException("用户名或者密码错误");
+            }
             return new SimpleAuthenticationInfo(token, token, "realm");
         } else {
             throw new UnknownAccountException("用户名或者密码错误");

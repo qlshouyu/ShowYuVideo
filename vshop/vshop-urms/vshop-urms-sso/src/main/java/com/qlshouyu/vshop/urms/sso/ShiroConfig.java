@@ -1,8 +1,11 @@
 package com.qlshouyu.vshop.urms.sso;
 
 import com.qlshouyu.vshop.urms.sso.filters.JWTFilter;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -11,6 +14,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.*;
 
 import javax.servlet.Filter;
@@ -63,18 +67,13 @@ public class ShiroConfig  {
         DefaultWebSecurityManager sm = new DefaultWebSecurityManager();
         sm.setRealm(realm);
         sm.setCacheManager(cacheManager);
-        //注入记住我管理器
-//        sm.setRememberMeManager(rememberMeManager());
-        //注入自定义sessionManager
-        sm.setSessionManager(sessionManager);
+        //关闭shiro自带的session
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        sm.setSubjectDAO(subjectDAO);
         return sm;
-    }
-
-
-    //自定义sessionManager
-    @Bean
-    public SessionManager sessionManager() {
-        return new CustomSessionManager();
     }
 
 
@@ -84,8 +83,13 @@ public class ShiroConfig  {
         return realm;
     }
     @Bean
+    @ConditionalOnMissingBean(CacheManager.class)
     public CacheManager cacheManager() {
         return new MemoryConstrainedCacheManager();
+    }
+    @Bean(name = "urms")
+    public Cache cacheManager(CacheManager cacheManager) {
+        return cacheManager.getCache("urms");
     }
     @Bean
     public BasicHttpAuthenticationFilter corsAuthenticationFilter(){

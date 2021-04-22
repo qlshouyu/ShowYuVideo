@@ -11,7 +11,7 @@
 
     <artifactId>vshop-urms-sso</artifactId>
     <properties>
-        <shiro-spring.version>1.4.1</shiro-spring.version>
+        <shiro-spring.version>1.7.0</shiro-spring.version>
         <java-jwt.version>3.8.1</java-jwt.version>
     </properties>
     <dependencies>
